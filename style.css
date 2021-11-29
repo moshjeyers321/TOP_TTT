@@ -1,0 +1,27 @@
+*{
+    /* border: 1px solid red; */
+}
+
+header {
+    display: flex;
+    justify-content: center;
+}
+
+
+.gameBoard {
+    display: grid;
+    grid-template-columns: 80px 80px 80px;
+    grid-template-rows: 80px 80px 80px;
+    width: 100%;
+    padding: 1em 0 1em 0;
+    margin-bottom: 0;
+    justify-content: center;
+}
+
+.field {
+    background-color: aquamarine;
+}
+
+.field:hover {
+    background-color: turquoise;
+}
