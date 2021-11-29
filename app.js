@@ -28,23 +28,77 @@ const Player = (sign) => {
 
 const gameController = (() => {
 
-    const _humanPlayer = Player('x');
+    const _player1 = Player('x');
+    const _player2 = Player('o');
 
-    const getHumanPlayer = () => _humanPlayer;
+    let _activePlayer = _player1;
+    const _switchActivePlayer = () => {
+        _activePlayer == _player1 ? _activePlayer = _player2 : _activePlayer = _player1
+    };
+
+    const _wins = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+
+        [0, 4, 8],
+        [2, 4, 6],
+    ]
+
+    const _checkWin = () => {
+        for (let i = 0; i < _wins.length; i++) {
+            let Windex = _wins[i]
+            let check = []
+
+            Windex.forEach(fieldIndex => {
+                let field = gameBoard.getField(fieldIndex);
+                check.push(field)
+            })
+
+            if (check.every(field => field == check[0] && field)) {
+                return true;
+            }
+        }
+    }
+
+    const _checkDraw = () => {
+        if (_checkWin()) {
+            return false;
+        }
+        for (let i = 0; i < 9; i++) {
+            const field = gameBoard.getField(i);
+            if (field == undefined) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 
     const playerTurn = (i) => {
         const field = gameBoard.getField(i);
 
         if (field == undefined) {
-            gameBoard.setField(i, _humanPlayer)
+            gameBoard.setField(i, _activePlayer)
+
+            if (_checkWin()) {
+                alert(`${_activePlayer.getSign()} is winner`)
+            } else if (_checkDraw()) {
+                alert("It's a DRAW")
+            }
+
         } else {
             alert("square is already filled")
         }
+        _switchActivePlayer();
     }
 
     return {
         playerTurn,
-        getHumanPlayer,
     }
 })();
 
